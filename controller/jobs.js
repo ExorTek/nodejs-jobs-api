@@ -18,7 +18,17 @@ const getSingleJob = expressAsyncHandler(async (req, res, next) => {
 
 });
 const createJob = expressAsyncHandler(async (req, res, next) => {
-
+    const { company, position } = req.body;
+    console.log(company,position)
+    const job = await Job.create({
+        company: company,
+        position: position,
+        createdBy: req.user.id
+    });
+    return res.status(200).json({
+        success: true,
+        data: job
+    })
 });
 const updateJob = expressAsyncHandler(async (req, res, next) => {
 
