@@ -19,6 +19,7 @@ const isTokenIncluded = (req) => {
 const getAccessTokenFromHeaders = (req) => {
     const authorization = req.headers.authorization;
     return authorization.split(' ')[1];
+
 };
 module.exports = {
     sendJwtToClient,
