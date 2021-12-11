@@ -3,6 +3,7 @@ const expressAsyncHandler = require('express-async-handler');
 const CustomError = require("../helpers/error/CustomError");
 const { validateUserInput, comparePassword } = require('../helpers/lib/inputHelper');
 const { sendJwtToClient } = require('../helpers/authorization/tokenHelpers');
+
 const register = expressAsyncHandler(async (req, res, next) => {
     const { name, email, password } = req.body;
     const user = await User.create({
@@ -16,14 +17,14 @@ const register = expressAsyncHandler(async (req, res, next) => {
 const login = expressAsyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
     if (!validateUserInput(email, password)) {
-        return next(new CustomError('Please don\'t empty the password and email!', 400));
+        return next(new CustomError('Please don\'t empty the password or email!', 400));
     }
     const user = await User.findOne({ email }).select("+password");
     if (user === null) {
-        return next(new CustomError('User does not exist!'));
+        return next(new CustomError('User doesn\'t exist! Please register.'), 400);
     }
     if (!comparePassword(password, user.password)) {
-        return next(new CustomError('Please check the password!'));
+        return next(new CustomError('Please check the password!'), 400);
     }
     sendJwtToClient(user, res);
 });
