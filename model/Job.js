@@ -10,7 +10,7 @@ const JobSchema = new Schema({
     position: {
         type: String,
         required: [true, 'Please provide position'],
-        maxlength: [3,'Position must be greater than 3 characters'],
+        minlength: [3,'Position must be greater than 3 characters'],
     },
     status: {
         type: String,
