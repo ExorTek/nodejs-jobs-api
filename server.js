@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require("cors")
 const routers = require('./routers');
 const connectDatabase = require('./helpers/database/connectDatabase');
 const customErrorHandler = require('./middleware/error/customErrorHandler');
@@ -9,6 +10,7 @@ dotenv.config({
 });
 const PORT = process.env.PORT;
 const app = express();
+app.use(cors())
 app.use(express.json());
 connectDatabase();
 app.use("/api", routers);
